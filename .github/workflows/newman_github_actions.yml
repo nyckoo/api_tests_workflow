@@ -18,5 +18,5 @@ jobs:
         with:
           node-version: '16'
       - run: npm install -g newman
-      - run: npm install -g newman-reporter-json-summary
-      - run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$apiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$apiKey" -r json-summary
+      - run: npm install -g newman-reporter-html
+      - run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$apiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$apiKey" -r cli,html
