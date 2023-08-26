@@ -11,7 +11,7 @@ jobs:
     env:
       collectionID: 22330983-473acc87-5afa-4d74-869d-b96375bef800
       environmentID: 22330983-b62c809c-1458-41b5-8b40-cec1a5f5076f
-      apiKey: ${{ secrets.SuperSecret }}
+      apiKey: ${{ secrets.POSTMANAPIKEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
