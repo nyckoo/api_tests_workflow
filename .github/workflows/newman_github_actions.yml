@@ -1,0 +1,19 @@
+name: Newman Test Run
+on:
+  push:
+    branches:
+    - master
+  schedule:
+    - cron: '0 12 * * 0'
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          collectionID: 22330983-473acc87-5afa-4d74-869d-b96375bef800
+          environmentID: 22330983-b62c809c-1458-41b5-8b40-cec1a5f5076f
+      - run: npm install -g newman
+      - run: newman run "https://api.getpostman.com/collections/${{collectionID}}?apikey=${{ secrets.POSTMANAPIKEY }}" --environment "https://api.getpostman.com/environments/${{ environmentID }}?apikey=${{ secrets.POSTMANAPIKEY }}"
