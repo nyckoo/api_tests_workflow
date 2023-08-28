@@ -19,7 +19,9 @@ jobs:
           node-version: '16'
       - run: npm install -g newman
       - run: npm install -g newman-reporter-json-summary
-      - run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$postmanApiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$postmanApiKey" -r cli,json-summary
+      - name: Run Postman tests collection
+        continue-on-error: true
+        run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$postmanApiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$postmanApiKey" -r cli,json-summary
       - name: Send JSON report to Slack
         uses: MeilCli/slack-upload-file@v3
         with:
