@@ -12,7 +12,6 @@ jobs:
       collectionID: 22330983-473acc87-5afa-4d74-869d-b96375bef800
       environmentID: 22330983-b62c809c-1458-41b5-8b40-cec1a5f5076f
       postmanApiKey: ${{ secrets.POSTMAN_API_KEY }}
-      slackChannelID: C05P8RVJG23
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -20,7 +19,7 @@ jobs:
           node-version: '16'
       - run: npm install -g newman
       - run: npm install -g newman-reporter-json-summary
-      - run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$apiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$apiKey" -r cli,json-summary
+      - run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$postmanApiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$postmanApiKey" -r cli,json-summary
       - name: Send JSON report to Slack
         uses: MeilCli/slack-upload-file@v3
         with:
