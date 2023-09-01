@@ -1,0 +1,1375 @@
+{
+	"info": {
+		"_postman_id": "473acc87-5afa-4d74-869d-b96375bef800",
+		"name": "gorest.co.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22330983"
+	},
+	"item": [
+		{
+			"name": "rest",
+			"item": [
+				{
+					"name": "create resources",
+					"item": [
+						{
+							"name": "create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"userID\", pm.response.json().id);\r",
+											"\r",
+											"pm.test(\"Status code: 201\", () => {\r",
+											"  pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"name\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"email\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"gender\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"status\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"name\",\r",
+											"              \"email\",\r",
+											"              \"gender\",\r",
+											"              \"status\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Check the active environment\", () => {\r",
+											"  pm.expect(pm.environment.name).to.eql(\"gorest.co.in env\");\r",
+											"});\r",
+											"\r",
+											"var randomBoolean = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+											"\r",
+											"pm.variables.set(\"gender\", randomBoolean ? \"male\" : \"female\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"{{$randomFullName}}\",\r\n    \"gender\":\"{{gender}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"status\":\"active\",\r\n    \"extra_field\": \"0x0x\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create user post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"postID\", pm.response.json().id);\r",
+											"\r",
+											"pm.test(\"Status code: 201\", () => {\r",
+											"  pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"user_id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"title\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"body\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"user_id\",\r",
+											"              \"title\",\r",
+											"              \"body\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"{{$randomAdjective}} {{$randomWord}}\",\r\n    \"body\": \"{{$randomWords}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:id/posts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id",
+										"posts"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add post comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"commentID\", pm.response.json().id);\r",
+											"\r",
+											"pm.test(\"Status code: 201\", () => {\r",
+											"  pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"post_id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"name\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"email\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"body\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"post_id\",\r",
+											"              \"name\",\r",
+											"              \"email\",\r",
+											"              \"body\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"{{$randomFullName}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"body\":\"{{$randomLoremWords}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts/:id/comments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":id",
+										"comments"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{postID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create user todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"todoID\", pm.response.json().id);\r",
+											"\r",
+											"pm.test(\"Status code: 201\", () => {\r",
+											"  pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"user_id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"title\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"due_on\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"status\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"user_id\",\r",
+											"              \"title\",\r",
+											"              \"due_on\",\r",
+											"              \"status\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var randomBoolean = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+											"\r",
+											"pm.variables.set(\"status\", randomBoolean ? \"pending\" : \"completed\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"{{$randomAdjective}} {{$randomBs}}\",\r\n    \"due_on\":\"{{$randomDateFuture}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:id/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id",
+										"todos"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get resources",
+					"item": [
+						{
+							"name": "get user details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code: 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"name\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"email\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"gender\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"status\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"name\",\r",
+											"              \"email\",\r",
+											"              \"gender\",\r",
+											"              \"status\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user posts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code: 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"        \"type\": \"array\",\r",
+											"        \"items\": {\r",
+											"\t        \"type\": \"object\", \r",
+											"\t        \"properties\": {\r",
+											"                \"id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"user_id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"title\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                },\r",
+											"                \"body\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                }\r",
+											"\t        },\r",
+											"            \"required\": [\r",
+											"                  \"id\",\r",
+											"                  \"user_id\",\r",
+											"                  \"title\",\r",
+											"                  \"body\"\r",
+											"                ]\r",
+											"        }\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id/posts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id",
+										"posts"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get post comments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code: 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({\r",
+											"        \"type\": \"array\",\r",
+											"        \"items\": {\r",
+											"\t        \"type\": \"object\", \r",
+											"\t        \"properties\": {\r",
+											"                \"id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"post_id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"name\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                },\r",
+											"                \"email\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                },\r",
+											"                \"body\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                }\r",
+											"\t        },\r",
+											"            \"required\": [\r",
+											"                  \"id\",\r",
+											"                  \"post_id\",\r",
+											"                  \"name\",\r",
+											"                  \"email\",\r",
+											"                  \"body\"\r",
+											"                ]\r",
+											"        }\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/posts/:id/comments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":id",
+										"comments"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{postID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code: 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({\r",
+											"        \"type\": \"array\",\r",
+											"        \"items\": {\r",
+											"\t        \"type\": \"object\", \r",
+											"\t        \"properties\": {\r",
+											"                \"id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"user_id\": { \r",
+											"                    \"type\": \"integer\" \r",
+											"                },\r",
+											"                \"title\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                },\r",
+											"                \"due_on\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                },\r",
+											"                \"status\": { \r",
+											"                    \"type\": \"string\" \r",
+											"                }\r",
+											"\t        },\r",
+											"            \"required\": [\r",
+											"                  \"id\",\r",
+											"                  \"user_id\",\r",
+											"                  \"title\",\r",
+											"                  \"due_on\",\r",
+											"                  \"status\"\r",
+											"                ]\r",
+											"        }\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id",
+										"todos"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "modify resources",
+					"item": [
+						{
+							"name": "patch user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code: 200\", () => {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+											"    pm.response.to.have.jsonSchema({ \r",
+											"\t    \"type\": \"object\", \r",
+											"\t    \"properties\": {\r",
+											"            \"id\": { \r",
+											"                \"type\": \"integer\" \r",
+											"            },\r",
+											"            \"name\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"email\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"gender\": { \r",
+											"                \"type\": \"string\" \r",
+											"            },\r",
+											"            \"status\": { \r",
+											"                \"type\": \"string\" \r",
+											"            }\r",
+											"\t    },\r",
+											"        \"required\": [\r",
+											"              \"id\",\r",
+											"              \"name\",\r",
+											"              \"email\",\r",
+											"              \"gender\",\r",
+											"              \"status\"\r",
+											"            ]\r",
+											"    });\r",
+											"\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\":\"inactive\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{userID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "graphql",
+			"item": [
+				{
+					"name": "create user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Check the active environment\", () => {\r",
+									"  pm.expect(pm.environment.name).to.eql(\"gorest.co.in env\");\r",
+									"});\r",
+									"\r",
+									"var randomBoolean = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+									"\r",
+									"pm.variables.set(\"gender\", randomBoolean ? \"male\" : \"female\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"userID\", pm.response.json().data.createUser.user.id);\r",
+									"\r",
+									"pm.test(\"Status code: 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+									"    pm.response.to.have.jsonSchema({ \r",
+									"\t    \"type\": \"object\", \r",
+									"\t    \"properties\": {\r",
+									"            \"data\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"createUser\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"properties\": {\r",
+									"                            \"user\": {\r",
+									"                                \"type\": \"object\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"name\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"gender\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"email\": {\r",
+									"                                        \"type\": \"string\",\r",
+									"                                        \"format\": \"email\"\r",
+									"                                    },\r",
+									"                                    \"status\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"required\": [\r",
+									"                            \"user\"\r",
+									"                        ]\r",
+									"                    }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"createUser\"\r",
+									"                ]\r",
+									"\t        }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"data\"\r",
+									"        ]\r",
+									"    });\r",
+									"\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/graphql",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($name: String!, $gender: String!, $email: String!) {\r\n    createUser( input: {\r\n            clientMutationId: \"0x123\"\r\n            name: $name\r\n            gender: $gender\r\n            email: $email\r\n            status: \"active\"\r\n        }\r\n    )\r\n    {\r\n        user {\r\n            id name gender email status\r\n        }\r\n    }\r\n}",
+								"variables": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{baseGraphqlUrl}}",
+							"host": [
+								"{{baseGraphqlUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"postID\", pm.response.json().data.createPost.post.id);\r",
+									"\r",
+									"pm.test(\"Status code: 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+									"    pm.response.to.have.jsonSchema({ \r",
+									"\t    \"type\": \"object\", \r",
+									"\t    \"properties\": {\r",
+									"            \"data\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"createPost\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"properties\": {\r",
+									"                            \"post\": {\r",
+									"                                \"type\": \"object\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"userId\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"title\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"body\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"required\": [\r",
+									"                            \"post\"\r",
+									"                        ]\r",
+									"                    }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"createPost\"\r",
+									"                ]\r",
+									"\t        }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"data\"\r",
+									"        ]\r",
+									"    });\r",
+									"\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/graphql",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($user_id: Int!, $title: String!, $body: String!) {\r\n    createPost( input: {\r\n            userId: $user_id\r\n            title: $title\r\n            body: $body\r\n        }\r\n    )\r\n    {\r\n        post {\r\n            id userId title body\r\n        }\r\n    }\r\n}",
+								"variables": "{\r\n    \"user_id\": {{userID}},\r\n    \"title\": \"{{$randomAdjective}} {{$randomWord}}\",\r\n    \"body\": \"{{$randomWords}}\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{baseGraphqlUrl}}",
+							"host": [
+								"{{baseGraphqlUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add post comment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Check the active environment\", () => {\r",
+									"  pm.expect(pm.environment.name).to.eql(\"gorest.co.in env\");\r",
+									"});\r",
+									"\r",
+									"var randomBoolean = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+									"\r",
+									"pm.variables.set(\"gender\", randomBoolean ? \"male\" : \"female\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"commentID\", pm.response.json().data.createComment.comment.id);\r",
+									"\r",
+									"pm.test(\"Status code: 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+									"    pm.response.to.have.jsonSchema({ \r",
+									"\t    \"type\": \"object\", \r",
+									"\t    \"properties\": {\r",
+									"            \"data\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"createComment\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"properties\": {\r",
+									"                            \"comment\": {\r",
+									"                                \"type\": \"object\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"postId\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"name\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"email\": {\r",
+									"                                        \"type\": \"string\",\r",
+									"                                        \"format\": \"email\"\r",
+									"                                    },\r",
+									"                                    \"body\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"required\": [\r",
+									"                            \"comment\"\r",
+									"                        ]\r",
+									"                    }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"createComment\"\r",
+									"                ]\r",
+									"\t        }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"data\"\r",
+									"        ]\r",
+									"    });\r",
+									"\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/graphql",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($post_id: Int!, $name: String!, $email: String!) {\r\n    createComment( input: {\r\n            postId: $post_id\r\n            name: $name\r\n            email: $email\r\n            body: \"{{$randomLoremWords}}\"\r\n        }\r\n    )\r\n    {\r\n        comment {\r\n            id postId name email body\r\n        }\r\n    }\r\n}",
+								"variables": "{\r\n    \"post_id\": {{postID}},\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{baseGraphqlUrl}}",
+							"host": [
+								"{{baseGraphqlUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user todos",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomBoolean = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+									"\r",
+									"pm.variables.set(\"status\", randomBoolean ? \"pending\" : \"completed\");\r",
+									"\r",
+									"var datetimeISO = new Date(new Date() + Math.floor(Math.random() * 6000000)).toISOString();\r",
+									"\r",
+									"pm.variables.set(\"futureIsoDatetime\", datetimeISO);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"todoID\", pm.response.json().data.createTodo.todo.id);\r",
+									"\r",
+									"pm.test(\"Status code: 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+									"    pm.response.to.have.jsonSchema({ \r",
+									"\t    \"type\": \"object\", \r",
+									"\t    \"properties\": {\r",
+									"            \"data\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"createTodo\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"properties\": {\r",
+									"                            \"todo\": {\r",
+									"                                \"type\": \"object\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"userId\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"title\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"dueOn\": {\r",
+									"                                        \"type\": \"string\",\r",
+									"                                        \"format\": \"date-time\"\r",
+									"                                    },\r",
+									"                                    \"status\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"required\": [\r",
+									"                            \"todo\"\r",
+									"                        ]\r",
+									"                    }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"createTodo\"\r",
+									"                ]\r",
+									"\t        }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"data\"\r",
+									"        ]\r",
+									"    });\r",
+									"\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/graphql",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($user_id: Int!, $title: String!, $due_on: ISO8601DateTime!, $status: String!) {\r\n    createTodo( input: {\r\n            userId: $user_id\r\n            title: $title\r\n            dueOn: $due_on\r\n            status: $status\r\n        }\r\n    )\r\n    {\r\n        todo {\r\n            id userId title dueOn status\r\n        }\r\n    }\r\n}",
+								"variables": "{\r\n    \"user_id\": {{userID}},\r\n    \"title\": \"{{$randomAdjective}} {{$randomBs}}\",\r\n    \"due_on\": \"{{futureIsoDatetime}}\",\r\n    \"status\": \"{{status}}\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{baseGraphqlUrl}}",
+							"host": [
+								"{{baseGraphqlUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code: 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content is checked with timing of 1200ms max\", () => {\r",
+									"    pm.response.to.have.jsonSchema({ \r",
+									"\t    \"type\": \"object\", \r",
+									"\t    \"properties\": {\r",
+									"            \"data\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"deleteUser\": {\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"properties\": {\r",
+									"                            \"user\": {\r",
+									"                                \"type\": \"object\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"type\": \"integer\"\r",
+									"                                    },\r",
+									"                                    \"name\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"gender\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    },\r",
+									"                                    \"email\": {\r",
+									"                                        \"type\": \"string\",\r",
+									"                                        \"format\": \"email\"\r",
+									"                                    },\r",
+									"                                    \"status\": {\r",
+									"                                        \"type\": \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"required\": [\r",
+									"                            \"user\"\r",
+									"                        ]\r",
+									"                    }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"deleteUser\"\r",
+									"                ]\r",
+									"\t        }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"data\"\r",
+									"        ]\r",
+									"    });\r",
+									"\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/graphql",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation($user_id: Int!) {\r\n    deleteUser( input: {\r\n            id: $user_id\r\n        }\r\n    )\r\n    {\r\n        user {\r\n            id name gender email status\r\n        }\r\n    }\r\n}",
+								"variables": "{\r\n    \"user_id\": {{userID}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{baseGraphqlUrl}}",
+							"host": [
+								"{{baseGraphqlUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response type: JSON\", () => {",
+					"  pm.response.to.have.jsonBody()",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://gorest.co.in/public/v2",
+			"type": "string"
+		},
+		{
+			"key": "baseGraphqlUrl",
+			"value": "https://gorest.co.in/public/v2/graphql",
+			"type": "string"
+		},
+		{
+			"key": "userID",
+			"value": "{{userID}}",
+			"type": "string"
+		},
+		{
+			"key": "postID",
+			"value": "{{postID}}",
+			"type": "string"
+		},
+		{
+			"key": "commentID",
+			"value": "{{commentID}}",
+			"type": "string"
+		},
+		{
+			"key": "todoID",
+			"value": "{{todoID}}",
+			"type": "string"
+		},
+		{
+			"key": "status",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "gender",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "futureIsoDatetime",
+			"value": "null",
+			"type": "string"
+		}
+	]
+}
