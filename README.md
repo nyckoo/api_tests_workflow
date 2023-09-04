@@ -14,10 +14,19 @@ The API has simple structure that assumes handling notes around internet forum, 
 - posts' comments
 - users' todos
 
-Test collection requests are ordered in following pattern both for REST and GraphQL endpoints:
+## Tests Requirements
+Although these tests are being developed for existing API, I invented a couple of requirements for the case of this project:
+- API can be consumed only with authorized access by token
+- every endpoint needs to have JSON object response format
+- user has an access only to his data resource and cannot view other users' records
+- status codes are standardized (more info on the site)
+- responses' contents are checked as to their format with json schema specification
+- each API response shouldn't take longer than 1200ms
+
+Test collection requests are ordered in folders with following pattern both for REST and GraphQL endpoints:
 - create resources
 - get resources
-- modify resources
+- modify/delete resources
 
 ## Next Stage
-There is going to be implementation of load testing conducted locally, using [k6](https://k6.io/) with an examplary API from this site.
+There is going to be implementation of load testing for this API with adjusted rate-limiting, using [k6](https://k6.io/) framework.
