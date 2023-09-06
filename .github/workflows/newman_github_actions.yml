@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: '0 12 * * 0'
 jobs:
-  newman:
+  test_gorest_api:
     runs-on: ubuntu-latest
     env:
       collectionID: 22330983-473acc87-5afa-4d74-869d-b96375bef800
@@ -22,6 +22,11 @@ jobs:
       - name: Run Postman tests collection
         continue-on-error: true
         run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$postmanApiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$postmanApiKey" -r cli,json-summary
+      - name: Run k6 load tests
+        uses: grafana/k6-action@v0.3.0
+        with:
+          filename: load_test.js
+          flags: --env TOKEN=${{ secrets.GOREST_AUTH_TOKEN }} --summary-export newman/k6_load_test_result.json
       - name: Send JSON report to Slack
         uses: MeilCli/slack-upload-file@v3
         with:
