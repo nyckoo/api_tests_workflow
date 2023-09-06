@@ -1,9 +1,13 @@
-function randomString(length, charset = '') {
+export function randomString(length, charset = '') {
     if (!charset) charset = 'abcdefghijklmnopqrstuvwxyz';
     let res = '';
     while (length--) res += charset[(Math.random() * charset.length) | 0];
     return res;
 };
+
+export function randomFutureDatetimeISO(seconds) {
+    return new Date(new Date() + Math.floor(Math.random() * seconds)).toISOString();
+}
 
 export const BASE_URL = 'https://gorest.co.in/public/v2';
 export const USERNAME = 'Test Name'
