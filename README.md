@@ -1,4 +1,4 @@
-# Postman tests pipeline
+# API tests pipeline
 Postman test collection integrated into Github Actions pipeline.
 
 ## About
