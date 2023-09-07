@@ -1,5 +1,5 @@
 # API tests pipeline
-Postman test collection integrated into Github Actions pipeline.
+Postman test collection and k6 framwework scripts integrated into Github Actions pipeline.
 
 ## About
 This project involves typical CI/CD workflow that starts from branch push or a schedule following automatic api tests and ending on sending summary to Slack channel. Moreover it composes of:
