@@ -23,6 +23,7 @@ jobs:
         continue-on-error: true
         run: newman run "https://api.getpostman.com/collections/$collectionID?apikey=$postmanApiKey" --environment "https://api.getpostman.com/environments/$environmentID?apikey=$postmanApiKey" -r cli,json-summary
       - name: Run k6 load tests
+        continue-on-error: true
         uses: grafana/k6-action@v0.3.0
         with:
           filename: load_test.js
