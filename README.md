@@ -42,6 +42,8 @@ Load tests are designed with following structure having 100 iterations of test s
 - delete test user once
 
 ## Exemplary output files from tests:
+![Screenshot_4](https://github.com/nyckoo/api_tests_workflow/assets/86057166/c6aa1fea-b634-445c-b8a9-43b17ed67ced)
+<br>
 postman functional testing:
 ```
 {
