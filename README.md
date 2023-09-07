@@ -15,7 +15,7 @@ The API has simple structure that assumes handling notes around internet forum, 
 - users' todos
 
 ## Tests Requirements
-Although these tests are being developed for existing API, I invented a couple of requirements for the case of this project:
+Although these tests are developed for existing API, I invented a couple of requirements for the case of this project:
 #### Functional (Postman):
 - API can be consumed only with authorized access by token
 - every endpoint needs to have JSON object response format
