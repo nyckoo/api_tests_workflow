@@ -5,8 +5,8 @@ export function randomString(length, charset = '') {
     return res;
 };
 
-export function randomFutureDatetimeISO(seconds) {
-    return new Date(new Date() + Math.floor(Math.random() * seconds)).toISOString();
+export function randomFutureDatetimeISO(miliseconds) {
+    return new Date(Date.now() + Math.floor(Math.random() * miliseconds)).toISOString();
 }
 
 export const BASE_URL = 'https://gorest.co.in/public/v2';
@@ -16,4 +16,4 @@ export const EMAIL = `${randomString(10)}@example.com`;
 export const HEADERS = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${__ENV.TOKEN}`
-}
+};
