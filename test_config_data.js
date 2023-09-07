@@ -14,6 +14,6 @@ export const USERNAME = 'Test Name'
 export const EMAIL = `${randomString(10)}@example.com`;
 
 export const HEADERS = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${__ENV.TOKEN}`
+    'Authorization': `Bearer ${__ENV.TOKEN}`,
+    'Accept': '*/*'
 };
